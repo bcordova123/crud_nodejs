@@ -4,3 +4,14 @@ background: -webkit-linear-gradient(to right, #dd1818, #333333);  /* Chrome 10-2
 background: linear-gradient(to right, #dd1818, #333333); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
 }
+
+.logo{
+    width:30%
+}
+.footer {
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+  }

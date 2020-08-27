@@ -4,9 +4,12 @@ const exphbs = require('express-handlebars');
 const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+
 //Inicializaciones
 const app = express();
-const db = require('./database');
+require('./database');
+require('./config/passport');
 
 //Configuraciones 
 app.set('port', process.env.PORT || 3000);
@@ -20,7 +23,7 @@ app.engine('.hbs', exphbs({
 
 app.set('view engine','.hbs');
 
-//Funciones 
+//Funciones - Middlewares
 
 app.use(express.urlencoded({extended:true}));
 
@@ -28,13 +31,20 @@ app.use(methodOverride('_method'));
 app.use(session({
     secret:'mysecretapp',
     resave: true,
-    saveUninitialized: true
+    saveUninitialized: true,
 }));
-app.use(flash())
+//Para usar passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use(flash());
+
 //Variables globales
 app.use((req,res,next) => {
     res.locals.success_msg = req.flash('success_msg');
     res.locals.error_msg = req.flash('error_msg');
+    res.locals.error_msg = req.flash('error');
+    res.locals.user = req.user || null; 
     next();
 });
 //Rutas
